@@ -122,7 +122,7 @@ module Haml
       set_locals(locals.merge(:_hamlout => buffer, :_erbout => buffer.buffer), scope, scope_object)
 
       scope_object.instance_eval do
-        extend Haml::Helpers
+        extend Haml::Helpers unless $avoid_haml_extend
         @haml_buffer = buffer
       end
       begin

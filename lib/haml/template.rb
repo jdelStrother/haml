@@ -24,6 +24,11 @@ module Haml
 
 end
 
+  
+if $avoid_haml_extend
+  Object.class_eval { include Haml::Helpers }
+end
+
 
 Haml::Template.options[:ugly]        = !Rails.env.development?
 Haml::Template.options[:escape_html] = true
