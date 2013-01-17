@@ -97,3 +97,16 @@ Please run `haml --rails #{File.expand_path(Haml::Util.rails_root)}' to update i
 END
   end
 end
+
+
+# Ideally we'd check for Haml::Template.options[:omit_extend_helpers] here,
+# but the load order is tricky.  We probably want Rails.after_initialize{...}, 
+# so that the user gets change to set :omit_extend_helpers in their initializers/haml.rb.
+# However, it's possible that ApplicationController has already been loaded by then, 
+# in which case the new helpers don't affect subclassed controllers.
+ActiveSupport.on_load(:action_controller) do
+  ActionController::Base.helper Haml::Helpers
+end
+ActiveSupport.on_load(:action_mailer) do
+  ActionMailer::Base.helper Haml::Helpers
+end
